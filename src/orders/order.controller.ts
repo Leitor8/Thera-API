@@ -1,4 +1,4 @@
-import {Controller, Get} from "@nestjs/common";
+import {Controller, Get, Post, Put, Delete} from "@nestjs/common";
 import { OrderService } from "./order.service";
 import { Order } from "./order.entity";
 import { ApiTags } from "@nestjs/swagger";
@@ -12,4 +12,21 @@ export class OrderController {
   async findAll(): Promise<Order[]> {
     return this.orderService.findAll();
   }
+  @Get(":id")
+  async findOne(id: string): Promise<Order> {
+    return this.orderService.findOne(id);
+  }
+  @Post()
+  async create(): Promise<Order> {
+    return this.orderService.create();
+  }
+  @Put()
+  async update(): Promise<Order> {
+    return this.orderService.update();
+  }
+  @Delete()
+  async delete(): Promise<Order> {
+    return this.orderService.delete();
+  }
+
 }
