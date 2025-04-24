@@ -16,10 +16,17 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/ (GET)', () => {
+  it('/orders/one (GET)', () => {
     return request(app.getHttpServer())
-      .get('/')
-      .expect(200)
-      .expect('Hello World!');
+      .get('/orders/one')
+      .expect(500)
+      .expect('Internal Server Error"');
+  });
+
+  it('/producst/one (GET)', () => {
+    return request(app.getHttpServer())
+      .get('/producst/one')
+      .expect(500)
+      .expect('Internal Server Error"');
   });
 });
