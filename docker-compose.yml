@@ -1,0 +1,27 @@
+services:
+  thera-api:
+    container_name: thera-api
+    image: lectorus/thera-api:1.0.0
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+    environment:
+      - DB_URL=mysql://root:root@thera-db:3306/thera
+      - DB_PORT=3306
+      - DB_HOST=thera-db
+      - DB_USER=root
+      - DB_PASSWORD=root
+    volumes:
+      - ./src:/app/src
+    depends_on:
+      - thera-db
+
+  thera-db:
+    container_name: thera-db
+    image: mysql:8.0.32
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
