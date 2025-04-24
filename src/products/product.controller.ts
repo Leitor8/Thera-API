@@ -3,7 +3,7 @@ import { ProductService } from "./product.service";
 import { Product } from "./product.entity";
 import { ApiTags } from "@nestjs/swagger";
 
-@Controller("product")
+@Controller("products")
 @ApiTags("product")
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
@@ -14,7 +14,7 @@ export class ProductController {
   }
   @Get(":id")
   async findOne(id: string): Promise<Product> {
-    return this.productService.findOne(id);
+    return this.productService.findOne(parseInt(id));
   }
   @Post()
   async create(): Promise<Product> {
