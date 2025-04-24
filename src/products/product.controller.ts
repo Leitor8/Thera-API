@@ -1,7 +1,9 @@
-import { Controller, Get, Post, Put, Delete, HttpException } from "@nestjs/common";
+import { Controller, Get, Post, Put, Delete, HttpException, Body } from "@nestjs/common";
 import { ProductService } from "./product.service";
 import { Product } from "./product.entity";
 import { ApiTags } from "@nestjs/swagger";
+import { CreateProductDto } from "./dto/create-product.dto";
+import { UpdateProductDto } from "./dto/update-product.dto";
 
 @Controller("products")
 @ApiTags("product")
@@ -32,9 +34,9 @@ export class ProductController {
     }
   }
   @Post()
-  async create(): Promise<Product> {
+  async create(@Body() createProductDto: CreateProductDto): Promise<Product> {
     try {
-      return await this.productService.create();
+      return await this.productService.create(createProductDto);
     }
     catch (error) {
       console.error("Error creating product:", error);
@@ -42,9 +44,9 @@ export class ProductController {
     }
   }
   @Put()
-  async update(): Promise<Product> {
+  async update(@Body() updateProductDto): Promise<Product> {: UpdateProductDto
     try {
-      return await this.productService.update();
+      return await this.productService.update(updateProductDto);
     }
     catch (error) {
       console.error("Error updating product:", error);

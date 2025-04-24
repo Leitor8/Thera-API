@@ -1,7 +1,9 @@
-import {Controller, Get, Post, Put, Delete, HttpException} from "@nestjs/common";
+import {Controller, Get, Post, Put, Delete, HttpException, Body} from "@nestjs/common";
 import { OrderService } from "./order.service";
 import { Order } from "./order.entity";
 import { ApiTags } from "@nestjs/swagger";
+import { CreateOrderDto } from "./dto/create-order.dto";
+import { UpdateOrderDto } from "./dto/update-order.dto";
 
 @Controller("orders")
 @ApiTags("order")
@@ -32,9 +34,9 @@ export class OrderController {
     }
   }
   @Post()
-  async create(): Promise<Order> {
+  async create(@Body() createOrderDto: CreateOrderDto): Promise<Order> {
     try {
-      return await this.orderService.create();
+      return await this.orderService.create(createOrderDto);
     }
     catch (error) {
       console.error("Error creating order:", error);
@@ -42,9 +44,9 @@ export class OrderController {
     }
   }
   @Put()
-  async update(): Promise<Order> {
+  async update(@Body() updateOrderDto: UpdateOrderDto): Promise<Order> {
     try {
-      return await this.orderService.update();
+      return await this.orderService.update(updateOrderDto);
     }
     catch (error) {
       console.error("Error updating order:", error);
