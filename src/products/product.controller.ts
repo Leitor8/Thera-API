@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete } from "@nestjs/common";
+import { Controller, Get, Post, Put, Delete, HttpException } from "@nestjs/common";
 import { ProductService } from "./product.service";
 import { Product } from "./product.entity";
 import { ApiTags } from "@nestjs/swagger";
@@ -10,22 +10,55 @@ export class ProductController {
 
   @Get()
   async findAll(): Promise<Product[]> {
-    return this.productService.findAll();
+    try {
+      return await this.productService.findAll();
+    }
+    catch (error) {
+      console.error("Error fetching products:", error);
+      throw new HttpException("Internal Server Error", 500);
+    }
   }
   @Get(":id")
   async findOne(id: string): Promise<Product> {
-    return this.productService.findOne(parseInt(id));
+    try {
+      if (isNaN(parseInt(id))) {
+        throw new HttpException("Invalid ID", 400);
+      }
+      return await this.productService.findOne(parseInt(id));
+    }
+    catch (error) {
+      console.error("Error fetching product:", error);
+      throw new HttpException("Internal Server Error", 500);
+    }
   }
   @Post()
   async create(): Promise<Product> {
-    return this.productService.create();
+    try {
+      return await this.productService.create();
+    }
+    catch (error) {
+      console.error("Error creating product:", error);
+      throw new HttpException("Internal Server Error", 500);
+    }
   }
   @Put()
   async update(): Promise<Product> {
-    return this.productService.update();
+    try {
+      return await this.productService.update();
+    }
+    catch (error) {
+      console.error("Error updating product:", error);
+      throw new HttpException("Internal Server Error", 500);
+    }
   }
   @Delete()
   async delete(): Promise<Product> {
-    return this.productService.delete();
+    try {
+      return await this.productService.delete();
+    }
+    catch (error) {
+      console.error("Error deleting product:", error);
+      throw new HttpException("Internal Server Error", 500);
+    }
   }
 }

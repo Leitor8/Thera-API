@@ -1,4 +1,4 @@
-import {Controller, Get, Post, Put, Delete} from "@nestjs/common";
+import {Controller, Get, Post, Put, Delete, HttpException} from "@nestjs/common";
 import { OrderService } from "./order.service";
 import { Order } from "./order.entity";
 import { ApiTags } from "@nestjs/swagger";
@@ -10,23 +10,56 @@ export class OrderController {
 
   @Get()
   async findAll(): Promise<Order[]> {
-    return this.orderService.findAll();
+    try {
+      return await this.orderService.findAll();
+    }
+    catch (error) {
+      console.error("Error fetching orders:", error);
+      throw new HttpException("Internal Server Error", 500);
+    }
   }
   @Get(":id")
   async findOne(id: string): Promise<Order> {
-    return this.orderService.findOne(parseInt(id));
+    try {
+      if (isNaN(parseInt(id))) {
+        throw new HttpException("Invalid ID", 400);
+      }
+      return await this.orderService.findOne(parseInt(id));
+    }
+    catch (error) {
+      console.error("Error fetching order:", error);
+      throw new HttpException("Internal Server Error", 500);
+    }
   }
   @Post()
   async create(): Promise<Order> {
-    return this.orderService.create();
+    try {
+      return await this.orderService.create();
+    }
+    catch (error) {
+      console.error("Error creating order:", error);
+      throw new HttpException("Internal Server Error", 500);
+    }
   }
   @Put()
   async update(): Promise<Order> {
-    return this.orderService.update();
+    try {
+      return await this.orderService.update();
+    }
+    catch (error) {
+      console.error("Error updating order:", error);
+      throw new HttpException("Internal Server Error", 500);
+    }
   }
   @Delete()
   async delete(): Promise<Order> {
-    return this.orderService.delete();
+    try {
+      return await this.orderService.delete();
+    }
+    catch (error) {
+      console.error("Error deleting order:", error);
+      throw new HttpException("Internal Server Error", 500);
+    }
   }
 
 }
