@@ -21,7 +21,7 @@ export class OrderController {
   @Get(":id")
   async findOne(id: string): Promise<Order> {
     try {
-      if (isNaN(parseInt(id))) {
+      if (isNaN(parseInt(id)) || parseInt(id) <= 0) {
         throw new HttpException("Invalid ID", 400);
       }
       return await this.orderService.findOne(parseInt(id));
@@ -52,9 +52,12 @@ export class OrderController {
     }
   }
   @Delete()
-  async delete(): Promise<Order> {
+  async delete(id: string): Promise<Order> {
     try {
-      return await this.orderService.delete();
+      if (isNaN(parseInt(id)) || parseInt(id) <= 0) {
+        throw new HttpException("Invalid ID", 400);
+      }
+      return await this.orderService.delete(parseInt(id));
     }
     catch (error) {
       console.error("Error deleting order:", error);

@@ -21,7 +21,7 @@ export class ProductController {
   @Get(":id")
   async findOne(id: string): Promise<Product> {
     try {
-      if (isNaN(parseInt(id))) {
+      if (isNaN(parseInt(id)) || parseInt(id) <= 0) {
         throw new HttpException("Invalid ID", 400);
       }
       return await this.productService.findOne(parseInt(id));
@@ -51,10 +51,13 @@ export class ProductController {
       throw new HttpException("Internal Server Error", 500);
     }
   }
-  @Delete()
-  async delete(): Promise<Product> {
+  @Delete(":id")
+  async delete(id: string): Promise<Product> {
     try {
-      return await this.productService.delete();
+      if (isNaN(parseInt(id)) || parseInt(id) <= 0) {
+        throw new HttpException("Invalid ID", 400);
+      }
+      return await this.productService.delete(parseInt(id));
     }
     catch (error) {
       console.error("Error deleting product:", error);

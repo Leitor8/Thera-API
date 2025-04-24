@@ -5,7 +5,7 @@ import { Product } from "./product.entity";
 @Injectable()
 export class ProductRepository extends Repository<Product> {
   async findAll(): Promise<Product[]> {
-    return [];
+    return this.find();
   }
 
   async findOneById(id: number): Promise<Product> {

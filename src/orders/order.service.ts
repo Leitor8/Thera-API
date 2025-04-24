@@ -12,13 +12,13 @@ export class OrderService {
   async findOne(id: number): Promise<any> {
     return this.orderRepository.findOneById(id);
 }
-  async create(): Promise<any> {
-    return {};
+  async create(order: Order): Promise<any> {
+    return this.orderRepository.create(order);
   }
-  async update(): Promise<any> {
-    return {};
+  async update(order: Order): Promise<any> {
+    return this.orderRepository.updateOrder(order);
   }
-  async delete(): Promise<any> {
-    return {};
+  async delete(id: number): Promise<any> {
+    return this.orderRepository.deleteOrder(id);
   }
 }
